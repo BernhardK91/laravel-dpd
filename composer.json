@@ -1,0 +1,19 @@
+{
+    "name": "bernhardk/laravel-dpd",
+    "description": "Laravel package for using DPD Webservices to submit shipment to dpd und retrieve its label and tracking information.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bernhard Kraemer",
+            "email": "mail@bernhard-kraemer.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "BernhardK\\Dpd\\": "src/"
+        }
+    }
+}
