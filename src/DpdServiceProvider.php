@@ -48,6 +48,7 @@ class DpdServiceProvider extends ServiceProvider {
             $shipment->setPrintOptions([
                 'printerLanguage' => config('dpd.printerLanguage'),
                 'paperFormat' => config('dpd.paperFormat'),
+                'startPosition' => config('dpd.startPosition')
             ]);
 
             return $shipment;

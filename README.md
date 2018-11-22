@@ -17,6 +17,14 @@ $ composer require bernhardk/dpd
 - PHP SOAP extension needs to be installed (https://stackoverflow.com/questions/2509143/how-do-i-install-soap-extension/41518256)
 - Edit configuration parameters in /config/dpd.php. All parameters are described.
 
+## DPD Webservice versions
+
+ | Webservice                   | Version   | Documentation |
+ | --- | --- | --- |
+ | Login Service                | 2.0       | [Login Service Documentation](https://esolutions.dpd.com/dokumente/LoginService_V2_0.pdf) |
+ | Shipment Service             | 3.2       | [Shipment Service Documentation](https://esolutions.dpd.com/dokumente/ShipmentService_V3_2.pdf) |
+ | Parcel Life Cycle Service    | 2.0       | [Parcel Life Cycle Service Documentation](https://esolutions.dpd.com/dokumente/ParcelLifeCycleService_V2_0.pdf) |
+
 ## Basic shipment usage
 The package registers a class that can be directly used:
 ```php
@@ -113,7 +121,6 @@ This package is licensed under the MIT license. The package is based on Michiel 
 (https://github.com/meertensm/DPD), which is also licensed under the MIT license.
 
 ## TODOs
-- WSDL-Pfade auf aktuelle Version aktualisieren
 - README fertig schreiben (inkl. Badgets, Beispielen und Danksagung)
     - https://github.com/meertensm/DPD
     - https://www.youtube.com/watch?v=H-euNqEKACA (ab ca. 00:45)

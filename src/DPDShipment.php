@@ -23,6 +23,7 @@ class DPDShipment{
     protected $storeOrderMessage = [
         'printOptions' => [
             'paperFormat' => null,
+            'startPosition' => null,
             'printerLanguage' => null
         ],
         'order' => [
@@ -77,8 +78,8 @@ class DPDShipment{
     protected $label = null;
     protected $airWayBills = [];
 
-    const TEST_SHIP_WSDL = 'https://public-ws-stage.dpd.com/services/ShipmentService/V3_1?wsdl';
-    const SHIP_WSDL = 'https://public-ws.dpd.com/services/ShipmentService/V3_1?wsdl';
+    const TEST_SHIP_WSDL = 'https://public-ws-stage.dpd.com/services/ShipmentService/V3_2?wsdl';
+    const SHIP_WSDL = 'https://public-ws.dpd.com/services/ShipmentService/V3_2?wsdl';
     const SOAPHEADER_URL = 'http://dpd.com/common/service/types/Authentication/2.0';
     const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?locale=:lang&query=:awb';
 

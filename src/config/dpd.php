@@ -74,10 +74,13 @@ return [
     |                       either "A4" or "A6". For direct printing the format has
     |                       to be set to "A6". "A7" only for return labels, other
     |                       type are not allowed. Default is A6.
+    | startPosition     =>  Start position for print on A4 paper.
+    |                       Value range: UPPER_LEFT, UPPER_RIGHT, LOWER_LEFT, LOWER_RIGHT
     */
 
     'printerLanguage'   => 'PDF',
     'paperFormat'       => 'A6',
+    'startPosition'     => 'UPPER_LEFT',
 
 
 
