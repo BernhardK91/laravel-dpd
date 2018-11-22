@@ -28,7 +28,7 @@ class DpdServiceProvider extends ServiceProvider {
                 Log::info('DPD: Package is installed, but config is not set yet. Update config at /config/dpd.php.');
             }
 
-            $authentication = new DPDAuthorisation([
+            $authorisation = new DPDAuthorisation([
                 'staging' => config('dpd.sandbox'),
                 'delisId' => config('dpd.delisId'),
                 'password' => config('dpd.password'),
@@ -36,7 +36,7 @@ class DpdServiceProvider extends ServiceProvider {
                 'customerNumber' => config('dpd.customerUid')
             ]);
 
-            $shipment = new DPDShipment($authentication);
+            $shipment = new DPDShipment($authorisation);
 
             // Set the language for the track&trace link
             $shipment->setTrackingLanguage(config('dpd.trackingLanguage'));
@@ -51,6 +51,25 @@ class DpdServiceProvider extends ServiceProvider {
             ]);
 
             return $shipment;
+        });
+
+        $this->app->singleton('dpdTracking', function(){
+
+            if (config('dpd.delisId') == '...') {
+                Log::info('DPD: Package is installed, but config is not set yet. Update config at /config/dpd.php.');
+            }
+
+            $authorisation = new DPDAuthorisation([
+                'staging' => config('dpd.sandbox'),
+                'delisId' => config('dpd.delisId'),
+                'password' => config('dpd.password'),
+                'messageLanguage' => config('dpd.messageLanguage'),
+                'customerNumber' => config('dpd.customerUid')
+            ]);
+
+            $status = new DPDParcelStatus($authorisation);
+
+            return $status;
         });
     }
 }

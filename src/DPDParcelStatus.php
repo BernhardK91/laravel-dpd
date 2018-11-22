@@ -1,6 +1,7 @@
-<?php namespace MCS;
+<?php namespace BernhardK\Dpd;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 use Soapclient;
 use SoapFault;
 use SOAPHeader;
@@ -53,9 +54,11 @@ class DPDParcelStatus{
             $client->__setSoapHeaders($header);
             $response = $client->getTrackingData(['parcelLabelNumber' => $awb]);
 
+
             $check = (array)$response->trackingresult;
             if (empty($check)) {
-                throw new Exception('Parcel not found'); 
+                Log::emergency('DPD: Parcel not found');
+                return array();
             }
 
             foreach($response->trackingresult->statusInfo as $statusInfo){
@@ -70,7 +73,7 @@ class DPDParcelStatus{
         }
         catch (SoapFault $e)
         {
-         throw new Exception($e->faultstring);   
+            Log::emergency('DPD: '.$e->faultstring);
         }
     }
 }

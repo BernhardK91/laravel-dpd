@@ -1,5 +1,5 @@
 # DPD Webservices for Laravel
-//TODO: Badges (wenn public)
+//TODO: Badges (wenn public) https://shields.io
 
 This is a laravel package for the _DPD Webservices_ based on Michiel Meertens' "DPD Webservice"
 (https://github.com/meertensm/DPD). 
@@ -93,8 +93,17 @@ echo app()->dpdShipment->getLabels();
 ```
 
 ## Basic tracking usage 
-// TODO
+The package registers a class that can be directly used:
+```php
+app()->dpdTracking
+```
 
+The following code describes a sample usage and returns the Tracking-Status.
+
+```php
+// Retrieve the parcel's status by it's awb number
+$parcelStatus = app()->dpdTracking->getStatus('09981122330100');
+```
 
 ## Support
 If you have any questions or problems please open a new issue.
@@ -103,9 +112,7 @@ If you have any questions or problems please open a new issue.
 This package is licensed under the MIT license. The package is based on Michiel Meertens' "DPD Webservice"
 (https://github.com/meertensm/DPD), which is also licensed under the MIT license.
 
-
 ## TODOs
-- Retrieve parcel status information
 - WSDL-Pfade auf aktuelle Version aktualisieren
 - README fertig schreiben (inkl. Badgets, Beispielen und Danksagung)
     - https://github.com/meertensm/DPD
