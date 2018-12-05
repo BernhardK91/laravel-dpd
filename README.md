@@ -1,5 +1,10 @@
 # DPD Webservices for Laravel
-//TODO: Badges (wenn public) https://shields.io
+
+[![GitHub issues](https://img.shields.io/github/issues/BernhardK91/laravel-dpd.svg)](https://github.com/BernhardK91/laravel-dpd/issues)
+[![GitHub license](https://img.shields.io/github/license/BernhardK91/laravel-dpd.svg)](https://github.com/BernhardK91/laravel-dpd/blob/master/LICENSE.txt)
+[![Packagist](https://img.shields.io/packagist/dt/bernhardk/laravel-dpd.svg)](https://packagist.org/packages/bernhardk/laravel-dpd)
+[![Twitter](https://img.shields.io/twitter/url/https/github.com/BernhardK91/laravel-dpd.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2FBernhardK91%2Flaravel-dpd)
+
 
 This is a laravel package for the _DPD Webservices_ based on Michiel Meertens' "DPD Webservice"
 (https://github.com/meertensm/DPD). 
