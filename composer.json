@@ -19,7 +19,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Bios2000\\Bios2000ServiceProvider"
+                "BernhardK\\Dpd\\DpdServiceProvider"
             ]
         }
     }
