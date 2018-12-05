@@ -15,5 +15,12 @@
         "psr-4": {
             "BernhardK\\Dpd\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bios2000\\Bios2000ServiceProvider"
+            ]
+        }
     }
 }

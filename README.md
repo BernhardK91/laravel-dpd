@@ -119,11 +119,3 @@ If you have any questions or problems please open a new issue.
 ## License
 This package is licensed under the MIT license. The package is based on Michiel Meertens' "DPD Webservice"
 (https://github.com/meertensm/DPD), which is also licensed under the MIT license.
-
-## TODOs
-- README fertig schreiben (inkl. Badgets, Beispielen und Danksagung)
-    - https://github.com/meertensm/DPD
-    - https://www.youtube.com/watch?v=H-euNqEKACA (ab ca. 00:45)
-- Freigabe von DPD einholen
-- bei Packagist bereitstellen
-- Installation per composer auf leerem Projekt testen
