@@ -1,6 +1,7 @@
 {
     "name": "bernhardk/laravel-dpd",
     "description": "Laravel package for using DPD Webservices to submit shipment to dpd und retrieve its label and tracking information.",
+    "keywords": ["laravel", "dpd", "dpd cloud service", "webservices"],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -10,7 +11,10 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": ">=7.1",
+        "illuminate/support": "5.5.x|5.6.x|5.7.x"
+    },
     "autoload": {
         "psr-4": {
             "BernhardK\\Dpd\\": "src/"

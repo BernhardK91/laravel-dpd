@@ -1,5 +1,6 @@
 # DPD Webservices for Laravel
 
+[![Latest Stable Version](https://poser.pugx.org/bernhardk/laravel-dpd/v/stable)](https://packagist.org/packages/bernhardk/laravel-dpd)
 [![GitHub issues](https://img.shields.io/github/issues/BernhardK91/laravel-dpd.svg)](https://github.com/BernhardK91/laravel-dpd/issues)
 [![GitHub license](https://img.shields.io/github/license/BernhardK91/laravel-dpd.svg)](https://github.com/BernhardK91/laravel-dpd/blob/master/LICENSE.txt)
 [![Packagist](https://img.shields.io/packagist/dt/bernhardk/laravel-dpd.svg)](https://packagist.org/packages/bernhardk/laravel-dpd)
