@@ -11,9 +11,17 @@ This is a laravel package for the _DPD Webservices_ based on Michiel Meertens' "
 (https://github.com/meertensm/DPD). 
 
 ## Installation
+You can install the package via composer with the following command into an existing laravel project. Please note the requirements below. 
 ```bash
-$ composer require bernhardk/dpd
+$ composer require bernhardk/laravel-dpd
 ```
+
+After that you need to publish the config-file with the following command:
+```bash
+$ php artisan vendor:publish --provider="BernhardK\Dpd\DpdServiceProvider" --tag="config"
+```
+
+As soon you have configured the credentials in /config/dpd.php you are ready to use the package as described below.
 
 ## Features
 - Submit a shipment to the dpd webservice and retrieve it's label and tracking information
