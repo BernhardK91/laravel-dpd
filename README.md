@@ -33,12 +33,12 @@ As soon you have configured the credentials in /config/dpd.php you are ready to 
 
 ## DPD Webservice versions
 
- | Webservice                   | Version   | Documentation |
- | --- | --- | --- |
- | Login Service                | 2.0       | [Login Service Documentation](https://esolutions.dpd.com/dokumente/LoginService_V2_0.pdf) |
- | Shipment Service             | 3.2       | [Shipment Service Documentation](https://esolutions.dpd.com/dokumente/ShipmentService_V3_2.pdf) |
- | Parcel Life Cycle Service    | 2.0       | [Parcel Life Cycle Service Documentation](https://esolutions.dpd.com/dokumente/ParcelLifeCycleService_V2_0.pdf) |
-
+ | Webservice                   | Version   |
+ | --- | --- |
+ | Login Service                | 2.0       |
+ | Shipment Service             | 3.2       |
+ | Parcel Life Cycle Service    | 2.0       |
+ 
 ## Basic shipment usage
 The package registers a class that can be directly used:
 ```php
