@@ -15,13 +15,15 @@ class DpdServiceProvider extends ServiceProvider {
             __DIR__.'/../config/dpd.php' => config_path('dpd.php'),
         ], 'config');
 
-        $this->mergeConfigFrom(
-            __DIR__.'/../config/dpd.php', 'dpd'
-        );
     }
 
     public function register()
     {
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/dpd.php', 'dpd'
+        );
+
         $this->app->singleton('dpdShipment', function(){
 
             if (config('dpd.delisId') == '...') {
