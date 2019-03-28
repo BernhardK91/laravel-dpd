@@ -12,11 +12,11 @@ class DpdServiceProvider extends ServiceProvider {
     {
 
         $this->publishes([
-            __DIR__.'/config/dpd.php' => config_path('dpd.php'),
-        ]);
+            __DIR__.'/../config/dpd.php' => config_path('dpd.php'),
+        ], 'config');
 
         $this->mergeConfigFrom(
-            __DIR__.'/config/dpd.php', 'dpd'
+            __DIR__.'/../config/dpd.php', 'dpd'
         );
     }
 
