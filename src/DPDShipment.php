@@ -68,7 +68,9 @@ class DPDShipment{
                     'comment' => null 
                 ]
             ],
-            'parcels' => [],
+            'parcels' => [
+                'returns' => false
+            ],
             'productAndServiceData' => [
                 'saturdayDelivery' => false,
                 'orderType' => 'consignment'
@@ -118,6 +120,12 @@ class DPDShipment{
             'volume' => $volume,
             'weight' => (int) ceil($array['weight'] / 10)
         ];
+
+        //set the flag for return package. DPD will flip sender and receiver on their server
+        if($array['return'] === true){ 
+            $this->storeOrderMessage['order']['parcels']['returns'] = true;
+        }
+
 
     }
 
