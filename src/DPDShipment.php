@@ -1,10 +1,12 @@
-<?php namespace BernhardK\Dpd;
+<?php 
+namespace BernhardK\Dpd;
 
+use BernhardK\Dpd\DPDException;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Soapclient;
-use SoapFault;
 use SOAPHeader;
+use SoapFault;
+use Soapclient;
 
 class DPDShipment{
 
@@ -66,7 +68,9 @@ class DPDShipment{
                     'comment' => null 
                 ]
             ],
-            'parcels' => [],
+            'parcels' => [
+                'returns' => false
+            ],
             'productAndServiceData' => [
                 'saturdayDelivery' => false,
                 'orderType' => 'consignment'
@@ -106,6 +110,7 @@ class DPDShipment{
     {
         if (!isset($array['weight']) or !isset($array['height']) or !isset($array['length']) or !isset($array['width'])){
             Log::emergency('DPD: Parcel array not complete');
+            throw new DPDException('DPD: Parcel array not complete');
         }
         $volume = str_pad((string) ceil($array['length']), 3, '0', STR_PAD_LEFT); 
         $volume .= str_pad((string) ceil($array['width']), 3, '0', STR_PAD_LEFT); 
@@ -115,6 +120,12 @@ class DPDShipment{
             'volume' => $volume,
             'weight' => (int) ceil($array['weight'] / 10)
         ];
+
+        //set the flag for return package. DPD will flip sender and receiver on their server
+        if($array['return'] === true){ 
+            $this->storeOrderMessage['order']['parcels']['returns'] = true;
+        }
+
 
     }
 
@@ -127,10 +138,12 @@ class DPDShipment{
         if (isset($this->storeOrderMessage['order']['productAndServiceData']['predict'])){
             if (!in_array(strtoupper($this->storeOrderMessage['order']['generalShipmentData']['recipient']['country']), $this->predictCountries)){
                 Log::emergency('DPD: Predict service not available for this destination');
+                throw new DPDException('DPD: Predict service not available for this destination');
             }
         }
         if (count($this->storeOrderMessage['order']['parcels']) === 0){
             Log::emergency('DPD: Create at least 1 parcel');
+            throw new DPDException('DPD: Create at least 1 parcel');
         }
         
         if ($this->environment['wsdlCache']){
@@ -154,6 +167,7 @@ class DPDShipment{
 
             if (isset($response->orderResult->shipmentResponses->faults)){
                 Log::emergency('DPD: '.$response->orderResult->shipmentResponses->faults->message);
+                throw new DPDException('SOAP Fehler ' . $response->orderResult->shipmentResponses->faults->message);
             }
 
             $this->label = $response->orderResult->parcellabelsPDF;
@@ -183,6 +197,7 @@ class DPDShipment{
         catch (SoapFault $e)
         {
             Log::emergency('DPD: '.$e->faultstring);
+            throw new DPDException('SOAP Fehler ' . $e->faultstring);
         }
 
     }
@@ -199,6 +214,7 @@ class DPDShipment{
 
         if (!isset($array['channel']) or !isset($array['value']) or !isset($array['language'])){
             Log::emergency('DPD: Predict array not complete');
+            throw new DPDException('DPD: Parcel array not complete');
         }
 
         switch (strtolower($array['channel'])) {
@@ -206,22 +222,26 @@ class DPDShipment{
                 $array['channel'] = 1;
                 if (!filter_var($array['value'], FILTER_VALIDATE_EMAIL)) {
                     Log::emergency('DPD: Predict email address not valid');
+                    throw new DPDException('DPD: Predict email address not valid');
                 }
                 break;
             case 'telephone':
                 $array['channel'] = 2;
                 if (empty($array['value'])){
                     Log::emergency('DPD: Predict value (telephone) empty');
+                    throw new DPDException('DPD: Predict value (telephone) empty');
                 }
                 break;
             case 'sms':
                 $array['channel'] = 3;
                 if (empty($array['value'])){
                     Log::emergency('DPD: Predict value (sms) empty');
+                    throw new DPDException('DPD: Predict value (sms) empty');
                 }
                 break;
             default:
                 Log::emergency('DPD: Predict channel not allowed');
+                throw new DPDException('DPD: Predict channel not allowed');
         }
 
         if (ctype_alpha($array['language']) && strlen($array['language']) === 2){
