@@ -35,13 +35,15 @@ class DPDAuthorisation{
 
         if($this->environment['wsdlCache']){
             $soapParams = [
-                'cache_wsdl' => WSDL_CACHE_BOTH
+                'cache_wsdl' => WSDL_CACHE_BOTH,
+                'trace' => config('dpd.tracing')
             ];
         }
         else{
             $soapParams = [
                 'cache_wsdl' => WSDL_CACHE_NONE,
-                'exceptions' => true
+                'exceptions' => true,
+                'trace' => config('dpd.tracing')
             ];
         }
 
@@ -55,13 +57,18 @@ class DPDAuthorisation{
                 'messageLanguage' => $this->authorisation['messageLanguage'],
             ]);
 
+            if(config('dpd.tracing')) {
+                Log::debug('DPD: SOAP-Request Authorisation: ' . $client->__getLastRequest());
+                Log::debug('DPD: SOAP-Response Authorisation: ' . $client->__getLastResponse());
+            }
+
             $auth->return->messageLanguage = $this->authorisation['messageLanguage'];
             $this->authorisation['token'] = $auth->return;
 
+            Log::debug('DPD: Authorisation successfull.');
         }
         catch (SoapFault $e){
             Log::emergency('DPD: '.$e->detail->authenticationFault->errorMessage);
-            Log::debug('DPD: Last SOAP-Request: ' . $e->getTraceAsString());
         }
     }
 }

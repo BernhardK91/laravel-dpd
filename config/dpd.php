@@ -83,5 +83,17 @@ return [
     'startPosition'     => 'UPPER_LEFT',
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Tracing
+    |--------------------------------------------------------------------------
+    |
+    | If tracing is activated, every SOAP-Request and every SOAP-Response will be
+    | logged. For security, privacy and storage reasons this option should only be
+    | activated for debug reasons.
+    | DEFAULT: false
+    */
+
+    'tracing' => false,
 
 ];

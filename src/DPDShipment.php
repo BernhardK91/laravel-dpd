@@ -148,13 +148,15 @@ class DPDShipment{
 
         if ($this->environment['wsdlCache']){
             $soapParams = [
-                'cache_wsdl' => WSDL_CACHE_BOTH
+                'cache_wsdl' => WSDL_CACHE_BOTH,
+                'trace' => config('dpd.tracing')
             ];
         }
         else{
             $soapParams = [
                 'cache_wsdl' => WSDL_CACHE_NONE,
-                'exceptions' => true
+                'exceptions' => true,
+                'trace' => config('dpd.tracing')
             ];
         }
 
@@ -164,6 +166,11 @@ class DPDShipment{
             $header = new SOAPHeader(self::SOAPHEADER_URL, 'authentication', $this->authorisation['token']);
             $client->__setSoapHeaders($header);
             $response = $client->storeOrders($this->storeOrderMessage);
+
+            if(config('dpd.tracing')) {
+                Log::debug('DPD: SOAP-Request Shipment: ' . $client->__getLastRequest());
+                Log::debug('DPD: SOAP-Response Shipment: ' . $client->__getLastResponse());
+            }
 
             if (isset($response->orderResult->shipmentResponses->faults)){
                 Log::emergency('DPD: '.$response->orderResult->shipmentResponses->faults->message);
