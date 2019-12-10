@@ -7,7 +7,7 @@ use SoapFault;
 use SOAPHeader;
 
 class DPDAuthorisation{
- 
+
     public $authorisation = [
         'staging' => false,
         'delisId' => null,
@@ -22,7 +22,7 @@ class DPDAuthorisation{
 
     /**
      * Get an authorisationtoken from the DPD webservice
-     * @param array   $array              
+     * @param array   $array
      * @param boolean $wsdlCache, cache the wsdl
      */
     public function __construct($array, $wsdlCache = true)
@@ -36,17 +36,17 @@ class DPDAuthorisation{
         if($this->environment['wsdlCache']){
             $soapParams = [
                 'cache_wsdl' => WSDL_CACHE_BOTH
-            ];    
+            ];
         }
         else{
             $soapParams = [
                 'cache_wsdl' => WSDL_CACHE_NONE,
                 'exceptions' => true
-            ];    
+            ];
         }
-        
+
         try{
-            
+
             $client = new Soapclient($this->environment['loginWsdl'], $soapParams);
 
             $auth = $client->getAuth([
@@ -61,6 +61,7 @@ class DPDAuthorisation{
         }
         catch (SoapFault $e){
             Log::emergency('DPD: '.$e->detail->authenticationFault->errorMessage);
-        } 
-    }    
+            Log::debug('DPD: Last SOAP-Request: ' . $e->getTraceAsString());
+        }
+    }
 }

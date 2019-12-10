@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace BernhardK\Dpd;
 
 use BernhardK\Dpd\DPDException;
@@ -15,10 +15,10 @@ class DPDShipment{
     protected $authorisation;
 
     protected $predictCountries = [
-        'BE', 'NL', 'DE', 'AT', 
-        'PL', 'FR', 'PT', 'GB', 
-        'LU', 'EE', 'CH', 'IE', 
-        'SK', 'LV', 'SI', 'LT', 
+        'BE', 'NL', 'DE', 'AT',
+        'PL', 'FR', 'PT', 'GB',
+        'LU', 'EE', 'CH', 'IE',
+        'SK', 'LV', 'SI', 'LT',
         'CZ', 'HU'
     ];
 
@@ -50,22 +50,22 @@ class DPDShipment{
                     'fax' => null,
                     'customerNumber' => null,
                 ],
-                'recipient' => [           
-                    'name1' => null,         
-                    'name2' => null,       
-                    'street' => null,       
-                    'houseNo' => null, 
+                'recipient' => [
+                    'name1' => null,
+                    'name2' => null,
+                    'street' => null,
+                    'houseNo' => null,
                     'state' => null,
                     'country' => null,
                     'gln' => null,
                     'zipCode' => null,
                     'customerNumber' => null,
-                    'contact' => null,        
-                    'phone' => null,                 
-                    'fax' => null,                 
-                    'email' => null,            
-                    'city' => null,       
-                    'comment' => null 
+                    'contact' => null,
+                    'phone' => null,
+                    'fax' => null,
+                    'email' => null,
+                    'city' => null,
+                    'comment' => null
                 ]
             ],
             'parcels' => [
@@ -88,7 +88,7 @@ class DPDShipment{
     const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?locale=:lang&query=:awb';
 
     /**
-     * @param object  DPDAuthorisation    $authorisationObject 
+     * @param object  DPDAuthorisation    $authorisationObject
      * @param boolean [$wsdlCache         = true]
      */
     public function __construct(DPDAuthorisation $authorisationObject, $wsdlCache = true)
@@ -97,7 +97,7 @@ class DPDShipment{
         $this->environment = [
             'wsdlCache' => $wsdlCache,
             'shipWsdl'  => ($this->authorisation['staging'] ? self::TEST_SHIP_WSDL : self::SHIP_WSDL),
-        ];   
+        ];
         $this->storeOrderMessage['order']['generalShipmentData']['sendingDepot'] = $this->authorisation['token']->depot;
     }
 
@@ -112,9 +112,9 @@ class DPDShipment{
             Log::emergency('DPD: Parcel array not complete');
             throw new DPDException('DPD: Parcel array not complete');
         }
-        $volume = str_pad((string) ceil($array['length']), 3, '0', STR_PAD_LEFT); 
-        $volume .= str_pad((string) ceil($array['width']), 3, '0', STR_PAD_LEFT); 
-        $volume .= str_pad((string) ceil($array['height']), 3, '0', STR_PAD_LEFT); 
+        $volume = str_pad((string) ceil($array['length']), 3, '0', STR_PAD_LEFT);
+        $volume .= str_pad((string) ceil($array['width']), 3, '0', STR_PAD_LEFT);
+        $volume .= str_pad((string) ceil($array['height']), 3, '0', STR_PAD_LEFT);
 
         $this->storeOrderMessage['order']['parcels'][] = [
             'volume' => $volume,
@@ -122,7 +122,7 @@ class DPDShipment{
         ];
 
         //set the flag for return package. DPD will flip sender and receiver on their server
-        if($array['return'] === true){ 
+        if(isset($array['return']) && $array['return'] === true){
             $this->storeOrderMessage['order']['parcels']['returns'] = true;
         }
 
@@ -145,7 +145,7 @@ class DPDShipment{
             Log::emergency('DPD: Create at least 1 parcel');
             throw new DPDException('DPD: Create at least 1 parcel');
         }
-        
+
         if ($this->environment['wsdlCache']){
             $soapParams = [
                 'cache_wsdl' => WSDL_CACHE_BOTH
@@ -157,7 +157,7 @@ class DPDShipment{
                 'exceptions' => true
             ];
         }
-        
+
         try{
 
             $client = new Soapclient($this->environment['shipWsdl'], $soapParams);
@@ -191,7 +191,7 @@ class DPDShipment{
                         ':awb' => $response->orderResult->shipmentResponses->parcelInformation->parcelLabelNumber,
                         ':lang' => $this->trackingLanguage
                     ])
-                ];    
+                ];
             }
         }
         catch (SoapFault $e)
@@ -245,7 +245,7 @@ class DPDShipment{
         }
 
         if (ctype_alpha($array['language']) && strlen($array['language']) === 2){
-            $array['language'] = strtoupper($array['language']);        
+            $array['language'] = strtoupper($array['language']);
         }
         $this->storeOrderMessage['order']['productAndServiceData']['predict'] = $array;
     }
@@ -256,7 +256,7 @@ class DPDShipment{
      */
     public function getParcelResponses()
     {
-     return $this->airWayBills;   
+     return $this->airWayBills;
     }
 
     /**
@@ -274,7 +274,7 @@ class DPDShipment{
      */
     public function setSaturdayDelivery($bool)
     {
-     $this->storeOrderMessage['order']['productAndServiceData']['saturdayDelivery'] = $bool; 
+     $this->storeOrderMessage['order']['productAndServiceData']['saturdayDelivery'] = $bool;
     }
 
     /**
@@ -305,23 +305,23 @@ class DPDShipment{
     {
      $this->storeOrderMessage['printOptions'] = array_merge($this->storeOrderMessage['printOptions'], $printoptions);
     }
-    
+
     /**
      * Set the language for the track & trace link
      * @param string $language format: en_EN
      */
     public function setTrackingLanguage($language)
     {
-     $this->trackingLanguage = $language;  
+     $this->trackingLanguage = $language;
     }
-    
+
     /**
      * Get's the shipment label pdf as a string
      * @return string
      */
     public function getLabels()
     {
-     return $this->label;   
+     return $this->label;
     }
 
 }
