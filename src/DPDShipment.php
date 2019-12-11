@@ -69,7 +69,6 @@ class DPDShipment{
                 ]
             ],
             'parcels' => [
-                'returns' => false
             ],
             'productAndServiceData' => [
                 'saturdayDelivery' => false,
