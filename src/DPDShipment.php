@@ -2,7 +2,6 @@
 namespace BernhardK\Dpd;
 
 use BernhardK\Dpd\DPDException;
-use Exception;
 use Illuminate\Support\Facades\Log;
 use SOAPHeader;
 use SoapFault;
@@ -24,9 +23,11 @@ class DPDShipment{
 
     protected $storeOrderMessage = [
         'printOptions' => [
-            'paperFormat' => null,
-            'startPosition' => null,
-            'printerLanguage' => null
+            'printOption' => [
+                'paperFormat' => null,
+                'startPosition' => null,
+                'outputFormat' => null
+            ]
         ],
         'order' => [
             'generalShipmentData' => [
@@ -81,8 +82,8 @@ class DPDShipment{
     protected $label = null;
     protected $airWayBills = [];
 
-    const TEST_SHIP_WSDL = 'https://public-ws-stage.dpd.com/services/ShipmentService/V3_2?wsdl';
-    const SHIP_WSDL = 'https://public-ws.dpd.com/services/ShipmentService/V3_2?wsdl';
+    const TEST_SHIP_WSDL = 'https://public-ws-stage.dpd.com/services/ShipmentService/V4_4?wsdl';
+    const SHIP_WSDL = 'https://public-ws.dpd.com/services/ShipmentService/V4_4?wsdl';
     const SOAPHEADER_URL = 'http://dpd.com/common/service/types/Authentication/2.0';
     const TRACKING_URL = 'https://tracking.dpd.de/parcelstatus?locale=:lang&query=:awb';
 
@@ -104,6 +105,7 @@ class DPDShipment{
     /**
      * Add a parcel to the shipment
      * @param array $array
+     * @throws \BernhardK\Dpd\DPDException
      */
     public function addParcel($array)
     {
@@ -111,6 +113,22 @@ class DPDShipment{
             Log::emergency('DPD: Parcel array not complete');
             throw new DPDException('DPD: Parcel array not complete');
         }
+
+        if ((int) $array['length'] < 100) {
+            Log::emergency('DPD: Minimum value for "length" is 100.');
+            throw new DPDException('DPD: Minimum value for "length" is 100.');
+        }
+
+        if ((int) $array['width'] < 100) {
+            Log::emergency('DPD: Minimum value for "width" is 100.');
+            throw new DPDException('DPD: Minimum value for "width" is 100.');
+        }
+
+        if ((int) $array['height'] < 1) {
+            Log::emergency('DPD: Minimum value for "height" is 1.');
+            throw new DPDException('DPD: Minimum value for "height" is 1.');
+        }
+
         $volume = str_pad((string) ceil($array['length']), 3, '0', STR_PAD_LEFT);
         $volume .= str_pad((string) ceil($array['width']), 3, '0', STR_PAD_LEFT);
         $volume .= str_pad((string) ceil($array['height']), 3, '0', STR_PAD_LEFT);
@@ -176,8 +194,8 @@ class DPDShipment{
                 throw new DPDException('SOAP Fehler ' . $response->orderResult->shipmentResponses->faults->message);
             }
 
-            $this->label = $response->orderResult->parcellabelsPDF;
-            unset($response->orderResult->parcellabelsPDF);
+            $this->label = $response->orderResult->output->content;
+            unset($response->orderResult->output->content);
 
             if (is_array($response->orderResult->shipmentResponses->parcelInformation)){
                 foreach($response->orderResult->shipmentResponses->parcelInformation as $parcelResponse){
