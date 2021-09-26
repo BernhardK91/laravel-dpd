@@ -36,7 +36,7 @@ As soon you have configured the credentials in /config/dpd.php you are ready to 
  | Webservice                   | Version   |
  | --- | --- |
  | Login Service                | 2.0       |
- | Shipment Service             | 3.2       |
+ | Shipment Service             | 4.4       |
  | Parcel Life Cycle Service    | 2.0       |
  
 ## Basic shipment usage
