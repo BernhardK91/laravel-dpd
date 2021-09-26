@@ -67,7 +67,11 @@ return [
     | Printer options
     |--------------------------------------------------------------------------
     |
-    | printerLanguage   =>  The language in which the parcel labels should be
+    | printerLanguage   =>  !!! DEPRECATED !!! => renamed to outputFormat
+    |                       The language in which the parcel labels should be
+    |                       returned. PDF as file output. In any case the output
+    |                       is base64 encoded. Default is PDF.
+    | outputFormat      =>  The language in which the parcel labels should be
     |                       returned. PDF as file output. In any case the output
     |                       is base64 encoded. Default is PDF.
     | paperFormat       =>  Declares the paper format for parcel label print,
@@ -78,7 +82,7 @@ return [
     |                       Value range: UPPER_LEFT, UPPER_RIGHT, LOWER_LEFT, LOWER_RIGHT
     */
 
-    'printerLanguage'   => 'PDF',
+    'outputFormat'      => 'PDF',
     'paperFormat'       => 'A6',
     'startPosition'     => 'UPPER_LEFT',
 
