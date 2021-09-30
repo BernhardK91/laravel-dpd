@@ -21,9 +21,10 @@ class DPDAuthorisation{
     const LOGIN_WSDL = 'https://public-ws.dpd.com/services/LoginService/V2_0?wsdl';
 
     /**
-     * Get an authorisationtoken from the DPD webservice
-     * @param array   $array
-     * @param boolean $wsdlCache, cache the wsdl
+     * Get an authorisation token from the DPD webservice
+     * @param array $array
+     * @param boolean $wsdlCache cache the wsdl
+     * @throws DPDException
      */
     public function __construct($array, $wsdlCache = true)
     {
@@ -69,6 +70,7 @@ class DPDAuthorisation{
         }
         catch (SoapFault $e){
             Log::emergency('DPD: '.$e->detail->authenticationFault->errorMessage);
+            throw new DPDException('DPD authentication failed: '. $e->detail->authenticationFault->errorMessage);
         }
     }
 }
