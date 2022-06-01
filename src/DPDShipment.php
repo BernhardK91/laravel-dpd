@@ -114,19 +114,19 @@ class DPDShipment{
             throw new DPDException('DPD: Parcel array not complete');
         }
 
-        if ((int) $array['length'] < 100) {
-            Log::emergency('DPD: Minimum value for "length" is 100.');
-            throw new DPDException('DPD: Minimum value for "length" is 100.');
+        if ((int) $array['length'] < 1) {
+            Log::emergency('DPD: Minimum value for "length" is 1 cm.');
+            throw new DPDException('DPD: Minimum value for "length" is 1 cm.');
         }
 
-        if ((int) $array['width'] < 100) {
-            Log::emergency('DPD: Minimum value for "width" is 100.');
-            throw new DPDException('DPD: Minimum value for "width" is 100.');
+        if ((int) $array['width'] < 1) {
+            Log::emergency('DPD: Minimum value for "width" is 1 cm.');
+            throw new DPDException('DPD: Minimum value for "width" is 1 cm.');
         }
 
         if ((int) $array['height'] < 1) {
-            Log::emergency('DPD: Minimum value for "height" is 1.');
-            throw new DPDException('DPD: Minimum value for "height" is 1.');
+            Log::emergency('DPD: Minimum value for "height" is 1 cm.');
+            throw new DPDException('DPD: Minimum value for "height" is 1 cm.');
         }
 
         $volume = str_pad((string) ceil($array['length']), 3, '0', STR_PAD_LEFT);
