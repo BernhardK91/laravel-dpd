@@ -14,7 +14,7 @@
     "require": {
         "php": ">=8.0.2",
         "ext-soap": "*",
-        "illuminate/support": "^6|^7|^8|^9|^10"
+        "illuminate/support": "^6|^7|^8|^9|^10|^11"
     },
     "autoload": {
         "psr-4": {
